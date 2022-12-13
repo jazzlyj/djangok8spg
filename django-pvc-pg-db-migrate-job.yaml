@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-migrate
+spec:
+  template:
+    spec:
+      containers:
+        - name: django-pg-pvc
+          image: localhost:5000/djangok8spg
+          command: ["/bin/sh","-c"]
+          args: ["python manage.py makemigrations && python manage.py migrate"] # initial db setup, there is no app
+          # args: ["python manage.py makemigrations <appname> && python manage.py migrate"] # after an app is created
+          env:
+            - name: DATABASE_USER
+              value: "postgres"
+            - name: DATABASE_PASSWORD
+              value: "postgres"
+            - name: DATABASE_HOST
+              value: "db"
+            - name: DATABASE_NAME
+              value: "postgres"
+      restartPolicy: Never
+  backoffLimit: 5

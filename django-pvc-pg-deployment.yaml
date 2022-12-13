@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-pg-pvc
+  labels: 
+    app: django-pg-pvc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: django-pg-pvc
+  template:
+    metadata:
+      labels:
+        app: django-pg-pvc
+    spec:
+      containers:
+      - name: django-pg-pvc
+        image: localhost:5000/djangok8spg
+        ports:
+        - containerPort: 8000
+          name: gunicorn
+        env:
+        - name: DATABASE_HOST
+          value: "db"
+        - name: DATABASE_USER
+          value: "postgres"
+        - name: DATABASE_PASSWORD
+          value: "postgres"
+        - name: DATABASE_NAME
+          value: "postgres"

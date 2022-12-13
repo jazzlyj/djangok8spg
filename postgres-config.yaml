@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: django-pg-pvc
+data:
+  POSTGRES_DB: postgres # it is postgres by default if no POSTGRES_USER is specified  
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres  # only env var that is required when initializing a postgres docker container
+  POSTGRES_HOST_AUTH_METHOD: trust
+  PGSSLMODE: disable
